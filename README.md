@@ -55,20 +55,31 @@ The result is a clean, extensible sandbox for experimenting with real-time rende
 The core update logic never needs to know which specific particle type it is handling:
 
 ```cpp
-// 1. Polymorphic update
-for (auto& p : particles) {
-    p->update();           // virtual dispatch to Rocket::update or Spark::update
-}
+// Temporary container for new particles created this frame
+std::vector<std::unique_ptr<Particle>> newSparks;
 
-// 2. Handle rocket explosions on death
-if (p->isDead()) {
-    // Check if the particle that just died was a Rocket
-    if (auto* rocket = dynamic_cast<Rocket*>(p.get())) {
-        createExplosion(rocket->getPosition(), rocket->getColor());
+for (auto& p : particles) {
+    p->update(); // 1. Virtual dispatch (Polymorphic update)
+
+    if (p->isDead()) {
+        // 2. RTTI: Check if the dead particle was a Rocket
+        if (auto* rocket = dynamic_cast<Rocket*>(p.get())) {
+            
+            // Spawn 100 sparks at the rocket's last position
+            for (int i = 0; i < 100; i++) {
+                // ... calculate random velocity vector ...
+                newSparks.push_back(std::make_unique<Spark>(...));
+            }
+        }
     }
 }
 
-// 3. Automatic cleanup of dead particles
+// 3. Transfer ownership of new sparks to main container
+for (auto& s : newSparks) {
+    particles.push_back(std::move(s));
+}
+
+// 4. Automatic cleanup of dead particles
 std::erase_if(particles, [](const auto& p) {
     return p->isDead();
 });
