@@ -3,7 +3,7 @@
 
 Rocket::Rocket(const sf::Vector2f& pos,const sf::Vector2f& vel, const sf::Color& col) : Particle{ pos, vel, col }, lifetime{ 0 }          // או כל ערך התחלתי שאתה רוצה
 {
-	lifetime = 60 + (rand() % 40); // 60-99 sec
+	lifetime = 60 + (rand() % 40); // 60-99 frames
 }
 
 void Rocket::update()
