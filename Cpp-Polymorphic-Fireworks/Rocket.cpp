@@ -30,25 +30,19 @@ void Rocket::update()
 
 void Rocket::draw(sf::RenderWindow& window) const
 {
-	// 1. ציור השובל (Trail)
+	// --- trail draw----
 	for (size_t i{ 0 }; i < trail.size(); i++)
 	{
-		// חישוב השקיפות (כמו שעשית)
-		sf::Uint8 alpha = static_cast<sf::Uint8>(255 * ((float)i / trail.size()));
-
-		// --- החלק החסר: יצירה וציור של הנקודה ---
-		sf::CircleShape tailPoint(2.f); // רדיוס קטן (2 פיקסלים)
-		tailPoint.setPosition(trail[i]); // המיקום מההיסטוריה
-
-		// קביעת הצבע: לוקחים את ה-RGB המקורי, ומוסיפים את ה-Alpha שחישבנו
+		unsigned char alpha = static_cast<unsigned char>(255 * (float)i / trail.size());
+	
+		sf::CircleShape tailPoint(2.f); 
+		tailPoint.setPosition(trail[i]); 
 		tailPoint.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
-
 		window.draw(tailPoint);
-	}
 
-	// 2. ציור הראש של הטיל (המיקום הנוכחי)
-	// מציירים אותו אטום לגמרי ובלי לולאה
-	sf::CircleShape head(4.f); // ראש קצת יותר גדול (4 פיקסלים)
+	}
+	// ---head draw---
+	sf::CircleShape head(4.f);
 	head.setPosition(position);
 	head.setFillColor(color);
 	window.draw(head);
