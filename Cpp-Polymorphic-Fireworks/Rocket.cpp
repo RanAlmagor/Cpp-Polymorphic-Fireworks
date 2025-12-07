@@ -22,22 +22,25 @@ void Rocket::update()
 	position += velocity;
 }
 
-void Rocket::draw(sf::RenderWindow& window) const
+void Rocket::draw(sf::RenderWindow& window, sf::RenderStates states) const
 {
-	// --- trail draw----
-	for (size_t i{ 0 }; i < trail.size(); i++)
-	{
-		unsigned char alpha = static_cast<unsigned char>(255 * (float)i / trail.size());
-	
-		sf::CircleShape tailPoint(2.f); 
-		tailPoint.setPosition(trail[i]); 
-		tailPoint.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
-		window.draw(tailPoint);
+    // Draw trail
+    for (size_t i{ 0 }; i < trail.size(); i++)
+    {
+        unsigned char alpha = static_cast<unsigned char>(255 * (float)i / trail.size());
 
-	}
-	// ---head draw---
-	sf::CircleShape head(4.f);
-	head.setPosition(position);
-	head.setFillColor(color);
-	window.draw(head);
+        sf::CircleShape tailPoint(2.f);
+        tailPoint.setPosition(trail[i]);
+        tailPoint.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
+
+        // Pass the blend mode states
+        window.draw(tailPoint, states);
+    }
+
+    // Draw head
+    sf::CircleShape head(4.f);
+    head.setPosition(position);
+    head.setFillColor(color);
+
+    window.draw(head, states);
 }

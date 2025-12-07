@@ -14,7 +14,7 @@ public:
 
 	virtual void update() = 0;
 
-	virtual void draw(sf::RenderWindow& window) const = 0;
+	virtual void draw(sf::RenderWindow& window, sf::RenderStates states = sf::RenderStates::Default) const = 0;
 
 	virtual ~Particle() = default;
 

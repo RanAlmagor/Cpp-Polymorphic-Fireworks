@@ -12,7 +12,6 @@ public:
 
 	void update() override;
 
-	void draw(sf::RenderWindow& window) const override;
-    
+	void draw(sf::RenderWindow& window, sf::RenderStates states = sf::RenderStates::Default) const override;
 
 };
