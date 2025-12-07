@@ -1,23 +1,17 @@
 ﻿#include "Rocket.hpp"
 #include <cstdlib>
 
-Rocket::Rocket(const sf::Vector2f& pos,const sf::Vector2f& vel, const sf::Color& col) : Particle{ pos, vel, col }, lifetime{ 0 }          // או כל ערך התחלתי שאתה רוצה
+Rocket::Rocket(const sf::Vector2f& pos, const sf::Vector2f& vel, const sf::Color& col)
+	: Particle(pos, vel, col, MIN_LIFETIME + (rand() % LIFETIME_VARIANCE))
 {
-	lifetime = 60 + (rand() % 40); // 60-99 frames
 }
 
 void Rocket::update()
 {
-	// 1 ---Life Management---
 
 	lifetime--;
-	if (lifetime < 0)
-	{
-		dead = true;
-		return;
-	}
 
-	// 2 ---trail managememt---
+	//  ---trail managememt---
 
 	trail.push_back(position);
 	if (trail.size() > 20)

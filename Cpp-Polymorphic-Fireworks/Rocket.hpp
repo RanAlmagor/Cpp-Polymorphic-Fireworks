@@ -6,7 +6,9 @@ class Rocket : public Particle
 {
 private:
 	std::vector<sf::Vector2f> trail;
-	int lifetime;
+	static constexpr int MIN_LIFETIME = 60;
+	static constexpr int LIFETIME_VARIANCE = 40;
+	
 
 public:
 	Rocket(const sf::Vector2f& pos, const sf::Vector2f& vel, const  sf::Color& col);
