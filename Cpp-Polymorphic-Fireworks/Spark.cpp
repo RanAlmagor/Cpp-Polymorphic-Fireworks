@@ -1,4 +1,4 @@
-#include "Spark.hpp"
+﻿#include "Spark.hpp"
 #include <cstdlib> //  rand
 #include <algorithm> //  std::max
 
@@ -16,5 +16,15 @@ void Spark::update()
 
 void Spark::draw(sf::RenderWindow& window)const
 {
+	float maxLife = (float)(MIN_LIFETIME + LIFETIME_VARIANCE / 2); // ממוצע חיים משוער
+	float ratio = lifetime / maxLife;
 
+	if (ratio < 0.0f) ratio = 0.0f;
+	if (ratio > 1.0f) ratio = 1.0f;
+
+	unsigned char alpha = static_cast<unsigned char>(255 * ratio);
+	sf::CircleShape spark(2.f);
+	spark.setPosition(position);
+	spark.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
+	window.draw(spark);
 }
